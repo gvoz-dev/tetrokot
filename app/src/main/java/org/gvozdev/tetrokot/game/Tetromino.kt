@@ -3,7 +3,7 @@ package org.gvozdev.tetrokot.game
 import kotlin.random.Random
 
 // https://en.wikipedia.org/wiki/Tetromino
-class Tetromino(type: Type) {
+class Tetromino(val type: Type) {
     var mask: Array<IntArray>
     var w: Int
     var h: Int
