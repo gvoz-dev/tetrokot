@@ -1,6 +1,7 @@
 package org.gvozdev.tetrokot.game
 
-import org.junit.Assert.*
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -17,7 +18,8 @@ class TestField {
         for (i in 0 until field.h) {
             for (j in 0 until field.w) {
                 if (i !in field.wall until field.h - field.wall ||
-                    j !in field.wall until field.w - field.wall) {
+                    j !in field.wall until field.w - field.wall
+                ) {
                     assertEquals(-1, field.array[i][j])
                 } else {
                     assertEquals(0, field.array[i][j])
