@@ -1,12 +1,13 @@
 package org.gvozdev.tetrokot.game
 
-class Tetris {
-    val field = Field(10, 20)
+class GameState(width: Int, height: Int) {
+    val field = Field(width, height)
     var current = Tetromino.next
     var next = Tetromino.next
     var x = startX()
     var y = startY()
     var state = State.NEXT
+    var score = 0
 
     enum class State {
         NEXT, DOWN, LEFT, RIGHT, ROTATE, GAME_OVER
@@ -22,7 +23,7 @@ class Tetris {
         y = startY()
     }
 
-    private fun showNext() {
+    fun showNext() {
         initTetromino()
         state = if (isValidAction(x, y, current, field)) {
             field.moveTetromino(current, x, y)
@@ -32,7 +33,7 @@ class Tetris {
         }
     }
 
-    private fun moveDown() {
+    fun moveDown() {
         field.clearTetromino(current, x, y)
         if (isValidAction(x, y + 1, current, field)) {
             field.moveTetromino(current, x, ++y)

@@ -1,15 +1,14 @@
 package org.gvozdev.tetrokot
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,12 +19,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.gvozdev.tetrokot.ui.theme.TetrokotTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreen()
+            TetrokotTheme {
+                Surface(color = MaterialTheme.colors.background) {
+                    MainScreen()
+                }
+            }
         }
     }
 }
@@ -47,7 +51,7 @@ fun MainScreen() {
 }
 
 @Composable
-fun Title(modifier: Modifier) {
+fun Title(modifier: Modifier = Modifier) {
     val backgroundColor = Color(0xFF512DA8)
     val textColor = Color(0xFFB3E5FC)
     Box(modifier.background(backgroundColor), Alignment.Center) {
@@ -62,15 +66,15 @@ fun Title(modifier: Modifier) {
 }
 
 @Composable
-fun MainMenu(modifier: Modifier) {
-    val backgroundColor = Color(0xFFB3E5FC)
+fun MainMenu(modifier: Modifier = Modifier) {
+    val backgroundColor = Color(0xFFE0F7FA)
     val activity = LocalContext.current as? Activity
     Column(
         modifier.background(backgroundColor),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MenuButton("Start") { /*TODO*/ }
+        MenuButton("Start") { activity?.startActivity(Intent(activity, GameActivity::class.java)) }
         MenuButton("Leaderboard") { /*TODO*/ }
         MenuButton("Settings") { /*TODO*/ }
         MenuButton("Exit") { activity?.finish() }
@@ -97,5 +101,9 @@ fun MenuButton(text: String, onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    MainScreen()
+    TetrokotTheme {
+        Surface(color = MaterialTheme.colors.background) {
+            MainScreen()
+        }
+    }
 }
