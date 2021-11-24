@@ -10,38 +10,48 @@ class TestTetromino {
 
     @Before
     fun setUp() {
-        tetromino = Tetromino(Tetromino.Type.OTHER)
+        tetromino = Tetromino(Tetromino.Type.TEST)
+    }
+
+    @Test
+    fun testInitialVerticalOffset() {
+        val tI = Tetromino(Tetromino.Type.I)
+        val tJ = Tetromino(Tetromino.Type.J)
+        val border = 2
+        assertEquals(1, tI.initialVerticalOffset(border))
+        assertEquals(2, tJ.initialVerticalOffset(border))
+    }
+
+    @Test
+    fun testInitialHorizontalOffset() {
+        val tI = Tetromino(Tetromino.Type.I)
+        val tL = Tetromino(Tetromino.Type.L)
+        val width = 14
+        assertEquals(5, tI.initialHorizontalOffset(width))
+        assertEquals(6, tL.initialHorizontalOffset(width))
     }
 
     @Test
     fun testRotateRight() {
-        assertEquals(5, tetromino.h)
-        assertEquals(4, tetromino.w)
         val expectedMask = arrayOf(
-            intArrayOf(6, 0, 0, 1, 0),
-            intArrayOf(5, 2, 2, 1, 0),
-            intArrayOf(4, 7, 7, 1, 0),
-            intArrayOf(3, 0, 0, 1, 0)
+            intArrayOf(3, 0, 0, 1),
+            intArrayOf(0, 2, 2, 0),
+            intArrayOf(0, 2, 2, 0),
+            intArrayOf(3, 0, 0, 1)
         )
         tetromino.rotateRight()
         assertArrayEquals(expectedMask, tetromino.mask)
-        assertEquals(4, tetromino.h)
-        assertEquals(5, tetromino.w)
     }
 
     @Test
     fun testRotateLeft() {
-        assertEquals(5, tetromino.h)
-        assertEquals(4, tetromino.w)
         val expectedMask = arrayOf(
-            intArrayOf(0, 1, 0, 0, 3),
-            intArrayOf(0, 1, 7, 7, 4),
-            intArrayOf(0, 1, 2, 2, 5),
-            intArrayOf(0, 1, 0, 0, 6)
+            intArrayOf(1, 0, 0, 3),
+            intArrayOf(0, 2, 2, 0),
+            intArrayOf(0, 2, 2, 0),
+            intArrayOf(1, 0, 0, 3)
         )
         tetromino.rotateLeft()
         assertArrayEquals(expectedMask, tetromino.mask)
-        assertEquals(4, tetromino.h)
-        assertEquals(5, tetromino.w)
     }
 }

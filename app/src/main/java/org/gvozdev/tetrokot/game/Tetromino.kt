@@ -45,12 +45,11 @@ class Tetromino(val type: Type) {
                 intArrayOf(0, 7, 7),
                 intArrayOf(0, 0, 0)
             )
-            Type.OTHER -> arrayOf(
-                intArrayOf(0, 0, 0, 0),
-                intArrayOf(1, 1, 1, 1),
-                intArrayOf(0, 2, 7, 0),
-                intArrayOf(0, 2, 7, 0),
-                intArrayOf(6, 5, 4, 3)
+            Type.TEST -> arrayOf(
+                intArrayOf(1, 0, 0, 1),
+                intArrayOf(0, 2, 2, 0),
+                intArrayOf(0, 2, 2, 0),
+                intArrayOf(3, 0, 0, 3),
             )
         }
         w = mask[0].size
@@ -58,7 +57,7 @@ class Tetromino(val type: Type) {
     }
 
     enum class Type {
-        I, O, T, J, L, S, Z, OTHER
+        I, O, T, J, L, S, Z, TEST
     }
 
     companion object {
@@ -71,9 +70,16 @@ class Tetromino(val type: Type) {
                 4 -> Tetromino(Type.L)
                 5 -> Tetromino(Type.S)
                 6 -> Tetromino(Type.Z)
-                else -> Tetromino(Type.OTHER)
+                else -> Tetromino(Type.TEST)
             }
     }
+
+    fun initialVerticalOffset(fieldBorder: Int) = when (type) {
+        Type.I -> if (fieldBorder > 0) fieldBorder - 1 else 0
+        else -> if (fieldBorder > 0) fieldBorder else 0
+    }
+
+    fun initialHorizontalOffset(fieldWidth: Int) = fieldWidth / 2 - w / 2
 
     fun rotateRight() {
         val rotated = Array(w) { IntArray(h) }
