@@ -1,72 +1,77 @@
 package org.gvozdev.tetrokot.game
 
-class GameState(width: Int, height: Int) {
-    val field = Field(width, height)
-    var current = Tetromino.next
-    var x = current.initialHorizontalOffset(field.w)
-    var y = current.initialVerticalOffset(field.border)
-    var next = Tetromino.next
-    var state = State.NEXT_TETROMINO
-    var score = 0
-
-    enum class State {
-        NEXT_TETROMINO, MOVING_DOWN, MOVING_LEFT, MOVING_RIGHT, ROTATE, GAME_OVER
-    }
-
+data class GameState(
+    val width: Int,
+    val height: Int,
+    val field: Field = Field(width, height),
+    var status: Status = Status.NEXT,
+    var score: Int = 0,
+    var ticks: Int = 0,
+    var nextTetro: Tetromino = Tetromino.next,
+    var currTetro: Tetromino = nextTetro,
+    private var x: Int = 0,
+    private var y: Int = 0
+) {
     private fun initTetromino() {
-        current = next
-        x = current.initialHorizontalOffset(field.w)
-        y = current.initialVerticalOffset(field.border)
-        next = Tetromino.next
+        currTetro = nextTetro
+        x = currTetro.initialHorizontalOffset(field.w)
+        y = currTetro.initialVerticalOffset(field.border)
+        nextTetro = Tetromino.next
         score += field.removeFilledRows()
     }
 
-    fun showNext() {
+    fun showNext(): Status {
         initTetromino()
-        state = if (field.isValidPosition(current, x, y)) {
-            field.moveTetromino(current, x, y)
-            State.MOVING_DOWN
+        return if (field.isValidPosition(currTetro, x, y)) {
+            field.moveTetromino(currTetro, x, y)
+            Status.DOWN
         } else {
-            State.GAME_OVER
+            Status.GAME_OVER
         }
     }
 
-    fun moveDown() {
-        field.clearTetromino(current, x, y)
-        if (field.isValidPosition(current, x, y + 1)) {
-            field.moveTetromino(current, x, ++y)
+    fun moveDown(): Status {
+        field.clearTetromino(currTetro, x, y)
+        return if (field.isValidPosition(currTetro, x, y + 1)) {
+            field.moveTetromino(currTetro, x, ++y)
+            Status.DOWN
         } else {
-            field.moveTetromino(current, x, y)
-            state = State.NEXT_TETROMINO
+            field.moveTetromino(currTetro, x, y)
+            Status.NEXT
         }
     }
 
-    fun moveLeft() {
-        field.clearTetromino(current, x, y)
-        if (field.isValidPosition(current, x - 1, y)) {
-            field.moveTetromino(current, --x, y)
+    fun moveLeft(): Status {
+        field.clearTetromino(currTetro, x, y)
+        if (field.isValidPosition(currTetro, x - 1, y)) {
+            field.moveTetromino(currTetro, --x, y)
         } else {
-            field.moveTetromino(current, x, y)
+            field.moveTetromino(currTetro, x, y)
         }
-        state = State.MOVING_DOWN
+        return Status.DOWN
     }
 
-    fun moveRight() {
-        field.clearTetromino(current, x, y)
-        if (field.isValidPosition(current, x + 1, y)) {
-            field.moveTetromino(current, ++x, y)
+    fun moveRight(): Status {
+        field.clearTetromino(currTetro, x, y)
+        if (field.isValidPosition(currTetro, x + 1, y)) {
+            field.moveTetromino(currTetro, ++x, y)
         } else {
-            field.moveTetromino(current, x, y)
+            field.moveTetromino(currTetro, x, y)
         }
-        state = State.MOVING_DOWN
+        return Status.DOWN
     }
 
-    fun rotate() {
-        field.clearTetromino(current, x, y)
-        current.rotateRight()
-        if (!field.isValidPosition(current, x, y)) {
-            current.rotateLeft()
+    fun rotate(): Status {
+        field.clearTetromino(currTetro, x, y)
+        currTetro.rotateRight()
+        if (!field.isValidPosition(currTetro, x, y)) {
+            currTetro.rotateLeft()
         }
-        field.moveTetromino(current, x, y)
+        field.moveTetromino(currTetro, x, y)
+        return Status.DOWN
     }
+}
+
+enum class Status {
+    NEXT, DOWN, LEFT, RIGHT, ROTATE, GAME_OVER
 }

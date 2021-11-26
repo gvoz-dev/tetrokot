@@ -1,12 +1,51 @@
 package org.gvozdev.tetrokot.game
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.gvozdev.tetrokot.game.Status.*
 
 class GameViewModel : ViewModel() {
-    val gameState = mutableStateOf(GameState(10, 20))
+    // https://elizarov.medium.com/shared-flows-broadcast-channels-899b675e805c
+    private val _game = MutableStateFlow(GameState(10, 20))
+    val game = _game.asStateFlow()
 
-    init {
-        gameState.value.showNext()
+    fun update(event: Event) = reduce(game.value, event)
+
+    private fun emit(gameState: GameState) {
+        _game.value = gameState
+    }
+
+    private fun reduce(gameState: GameState, event: Event) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Default) {
+                when (event) {
+                    MoveLeft -> gameState.status = LEFT
+                    MoveRight -> gameState.status = RIGHT
+                    Rotate -> gameState.status = ROTATE
+                    else -> {}
+                }
+                emit(newState(gameState))
+            }
+        }
+    }
+
+    private fun newState(gameState: GameState) = when (gameState.status) {
+        NEXT -> gameState.copy(status = gameState.showNext())
+        GAME_OVER -> gameState.copy(score = -5000000)
+        LEFT -> gameState.copy(status = gameState.moveLeft())
+        RIGHT -> gameState.copy(status = gameState.moveRight())
+        ROTATE -> gameState.copy(status = gameState.rotate())
+        else -> gameState.copy(ticks = gameState.ticks + 1, status = gameState.moveDown())
     }
 }
+
+sealed interface Event
+object GameTick : Event
+object MoveLeft : Event
+object MoveRight : Event
+object Rotate : Event
