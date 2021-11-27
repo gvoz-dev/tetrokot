@@ -13,3 +13,6 @@ val Typography = Typography(
         fontSize = 16.sp
     )
 )
+
+val TitleFontSize = 46.sp
+val ButtonFontSize = 30.sp

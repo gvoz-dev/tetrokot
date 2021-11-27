@@ -23,10 +23,12 @@ class GameViewModel : ViewModel() {
     private fun reduce(gameState: GameState, event: Event) {
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
+                if (gameState.status == GAME_OVER) return@withContext
                 when (event) {
                     MoveLeft -> gameState.status = LEFT
                     MoveRight -> gameState.status = RIGHT
                     Rotate -> gameState.status = ROTATE
+                    Pause -> return@withContext
                     else -> {}
                 }
                 emit(newState(gameState))
@@ -36,7 +38,7 @@ class GameViewModel : ViewModel() {
 
     private fun newState(gameState: GameState) = when (gameState.status) {
         NEXT -> gameState.copy(status = gameState.showNext())
-        GAME_OVER -> gameState.copy(score = -5000000)
+        GAME_OVER -> gameState.copy(ticks = gameState.ticks + 1)
         LEFT -> gameState.copy(status = gameState.moveLeft())
         RIGHT -> gameState.copy(status = gameState.moveRight())
         ROTATE -> gameState.copy(status = gameState.rotate())
@@ -49,3 +51,5 @@ object GameTick : Event
 object MoveLeft : Event
 object MoveRight : Event
 object Rotate : Event
+object Pause : Event
+object Resume : Event
