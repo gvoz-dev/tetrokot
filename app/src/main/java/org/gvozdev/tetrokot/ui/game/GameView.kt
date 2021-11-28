@@ -1,4 +1,4 @@
-package org.gvozdev.tetrokot.ui
+package org.gvozdev.tetrokot.ui.game
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -19,13 +22,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
-import org.gvozdev.tetrokot.MainActivity
-import org.gvozdev.tetrokot.game.*
+import org.gvozdev.tetrokot.game.GameState
+import org.gvozdev.tetrokot.game.Status
+import org.gvozdev.tetrokot.ui.main.MainActivity
 import org.gvozdev.tetrokot.ui.theme.GameInfoHeight
 import org.gvozdev.tetrokot.ui.theme.TetrokotTheme
 import org.gvozdev.tetrokot.ui.theme.getBlockColor
@@ -36,23 +38,6 @@ fun GameView() {
     val viewModel = viewModel<GameViewModel>()
     val game by viewModel.game.collectAsState()
     val activity = LocalContext.current as? Activity
-    val lifecycleOwner = LocalLifecycleOwner.current
-
-    DisposableEffect(Unit) {
-        val observer = object : DefaultLifecycleObserver {
-            fun onResume() {
-                viewModel.update(Resume)
-            }
-
-            fun onPause() {
-                viewModel.update(Pause)
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
 
     LaunchedEffect(Unit) {
         while (true) {

@@ -1,11 +1,10 @@
-package org.gvozdev.tetrokot
+package org.gvozdev.tetrokot.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import org.gvozdev.tetrokot.ui.MainScreen
 import org.gvozdev.tetrokot.ui.theme.TetrokotTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,7 +13,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TetrokotTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainScreen()
+                    MainView()
                 }
             }
         }

@@ -15,3 +15,5 @@ val ButtonHeight = 120.dp
 val ButtonPadding = 10.dp
 
 val GameInfoHeight = 46.dp
+
+val RadioButtonHeight = 56.dp

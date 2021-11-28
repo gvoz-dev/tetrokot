@@ -1,4 +1,4 @@
-package org.gvozdev.tetrokot.game
+package org.gvozdev.tetrokot.ui.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.gvozdev.tetrokot.game.GameState
 import org.gvozdev.tetrokot.game.Status.*
 
 class GameViewModel : ViewModel() {
@@ -28,7 +29,6 @@ class GameViewModel : ViewModel() {
                     MoveLeft -> gameState.status = LEFT
                     MoveRight -> gameState.status = RIGHT
                     Rotate -> gameState.status = ROTATE
-                    Pause -> return@withContext
                     else -> {}
                 }
                 emit(newState(gameState))
@@ -51,5 +51,3 @@ object GameTick : Event
 object MoveLeft : Event
 object MoveRight : Event
 object Rotate : Event
-object Pause : Event
-object Resume : Event

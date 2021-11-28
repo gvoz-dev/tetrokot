@@ -22,4 +22,8 @@
     <style name="Theme.Tetrokot.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Tetrokot.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Tetrokot.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Tetrokot.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

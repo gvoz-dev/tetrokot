@@ -1,4 +1,4 @@
-package org.gvozdev.tetrokot.ui
+package org.gvozdev.tetrokot.ui.main
 
 import android.app.Activity
 import android.content.Intent
@@ -12,16 +12,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import org.gvozdev.tetrokot.GameActivity
+import org.gvozdev.tetrokot.ui.game.GameActivity
+import org.gvozdev.tetrokot.ui.settings.SettingsActivity
 import org.gvozdev.tetrokot.ui.theme.*
 
 @Composable
-fun MainScreen() {
+fun MainView() {
     Column {
         Title(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1.0f)
+                .weight(1.0f),
+            "Tetrokot"
         )
         MainMenu(
             modifier = Modifier
@@ -32,10 +34,10 @@ fun MainScreen() {
 }
 
 @Composable
-fun Title(modifier: Modifier = Modifier) {
+fun Title(modifier: Modifier = Modifier, text: String) {
     Box(modifier.background(TitleBackgroundColor), Alignment.Center) {
         Text(
-            text = "Tetrokot",
+            text = text,
             color = TitleTextColor,
             fontSize = TitleFontSize,
             fontFamily = FontFamily.Serif,
@@ -54,8 +56,15 @@ fun MainMenu(modifier: Modifier = Modifier) {
     ) {
         MenuButton("Start") { activity?.startActivity(Intent(activity, GameActivity::class.java)) }
         MenuButton("Leaderboard") { /*TODO*/ }
-        MenuButton("Settings") { /*TODO*/ }
-        MenuButton("Exit") { activity?.finish() }
+        MenuButton("Settings") {
+            activity?.startActivity(
+                Intent(
+                    activity,
+                    SettingsActivity::class.java
+                )
+            )
+        }
+        //MenuButton("Exit") { activity?.finish() }
     }
 }
 
@@ -79,7 +88,7 @@ fun MenuButton(text: String, onClick: () -> Unit) {
 fun DefaultPreview() {
     TetrokotTheme {
         Surface(color = MaterialTheme.colors.background) {
-            MainScreen()
+            MainView()
         }
     }
 }
