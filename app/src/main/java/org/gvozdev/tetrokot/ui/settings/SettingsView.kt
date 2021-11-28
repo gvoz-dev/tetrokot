@@ -1,5 +1,7 @@
 package org.gvozdev.tetrokot.ui.settings
 
+import android.app.Activity
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -10,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +39,7 @@ fun SettingsView() {
 
 @Composable
 fun Settings(modifier: Modifier = Modifier) {
+    val activity = LocalContext.current as? Activity
     Column(
         modifier.background(MenuBackgroundColor),
         verticalArrangement = Arrangement.Center,
@@ -43,7 +47,13 @@ fun Settings(modifier: Modifier = Modifier) {
     ) {
         FieldSettings()
         DifficultySettings()
-        MenuButton("Apply") { /*TODO*/ }
+        MenuButton("Apply") {
+            Toast.makeText(
+                activity,
+                "Not yet implemented",
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }
 

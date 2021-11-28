@@ -27,7 +27,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import org.gvozdev.tetrokot.game.GameState
 import org.gvozdev.tetrokot.game.Status
-import org.gvozdev.tetrokot.ui.main.MainActivity
+import org.gvozdev.tetrokot.ui.score.ScoreActivity
 import org.gvozdev.tetrokot.ui.theme.GameInfoHeight
 import org.gvozdev.tetrokot.ui.theme.TetrokotTheme
 import org.gvozdev.tetrokot.ui.theme.getBlockColor
@@ -44,8 +44,8 @@ fun GameView() {
             delay(300L)
             viewModel.update(GameTick)
             if (game.status == Status.GAME_OVER) {
-                val intent = Intent(activity, MainActivity::class.java)
-                intent.putExtra("Score", game.score)
+                val intent = Intent(activity, ScoreActivity::class.java)
+                intent.putExtra("score", game.score)
                 activity?.startActivity(intent)
                 break
             }
