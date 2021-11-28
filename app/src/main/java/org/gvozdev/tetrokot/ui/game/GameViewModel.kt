@@ -25,12 +25,13 @@ class GameViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.Default) {
                 if (gameState.status == GAME_OVER) return@withContext
-                when (event) {
-                    MoveLeft -> gameState.status = LEFT
-                    MoveRight -> gameState.status = RIGHT
-                    Rotate -> gameState.status = ROTATE
-                    else -> {}
-                }
+                if (gameState.status != NEXT)
+                    when (event) {
+                        MoveLeft -> gameState.status = LEFT
+                        MoveRight -> gameState.status = RIGHT
+                        Rotate -> gameState.status = ROTATE
+                        else -> {}
+                    }
                 emit(newState(gameState))
             }
         }
