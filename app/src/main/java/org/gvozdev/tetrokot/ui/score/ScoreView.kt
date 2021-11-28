@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.gvozdev.tetrokot.ui.game.GameActivity
+import org.gvozdev.tetrokot.ui.main.MainActivity
 import org.gvozdev.tetrokot.ui.main.MenuButton
 import org.gvozdev.tetrokot.ui.main.Title
 import org.gvozdev.tetrokot.ui.theme.*
@@ -73,6 +74,14 @@ fun ScoreInput(modifier: Modifier = Modifier, score: Int) {
                     "Your score < 100",
                     Toast.LENGTH_LONG
                 ).show()
+            } else {
+                ScoreViewModel().send(name.value, score)
+                activity?.startActivity(
+                    Intent(
+                        activity,
+                        MainActivity::class.java
+                    )
+                )
             }
         }
         MenuButton("Restart") {
