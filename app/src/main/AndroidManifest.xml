@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tetrokot.NoActionBar">
         <activity
+            android:name=".ui.leaderboard.LeaderboardActivity"
+            android:exported="false"
+            android:label="@string/title_activity_leaderboard"
+            android:theme="@style/Theme.Tetrokot.NoActionBar" />
+        <activity
             android:name=".ui.score.ScoreActivity"
             android:exported="false"
             android:label="@string/title_activity_score"
@@ -28,6 +33,7 @@
             android:name=".ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.Tetrokot.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

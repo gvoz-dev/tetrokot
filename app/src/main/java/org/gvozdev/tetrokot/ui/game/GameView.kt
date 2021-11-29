@@ -47,6 +47,7 @@ fun GameView() {
                 val intent = Intent(activity, ScoreActivity::class.java)
                 intent.putExtra("score", game.score)
                 activity?.startActivity(intent)
+                activity?.finish()
                 break
             }
         }

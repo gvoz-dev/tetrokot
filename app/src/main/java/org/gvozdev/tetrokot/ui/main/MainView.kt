@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.gvozdev.tetrokot.ui.game.GameActivity
+import org.gvozdev.tetrokot.ui.leaderboard.LeaderboardActivity
 import org.gvozdev.tetrokot.ui.settings.SettingsActivity
 import org.gvozdev.tetrokot.ui.theme.*
 
@@ -54,17 +55,18 @@ fun MainMenu(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MenuButton("Start") { activity?.startActivity(Intent(activity, GameActivity::class.java)) }
-        MenuButton("Leaderboard") { /*TODO*/ }
-        MenuButton("Settings") {
-            activity?.startActivity(
-                Intent(
-                    activity,
-                    SettingsActivity::class.java
-                )
-            )
+        MenuButton("Start") {
+            activity?.startActivity(Intent(activity, GameActivity::class.java))
         }
-        //MenuButton("Exit") { activity?.finish() }
+        MenuButton("Leaderboard") {
+            activity?.startActivity(Intent(activity, LeaderboardActivity::class.java))
+        }
+        MenuButton("Settings") {
+            activity?.startActivity(Intent(activity, SettingsActivity::class.java))
+        }
+        MenuButton("Exit") {
+            activity?.finish()
+        }
     }
 }
 
@@ -85,7 +87,7 @@ fun MenuButton(text: String, onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun MainPreview() {
     TetrokotTheme {
         Surface(color = MaterialTheme.colors.background) {
             MainView()

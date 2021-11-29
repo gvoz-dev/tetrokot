@@ -48,11 +48,7 @@ fun Settings(modifier: Modifier = Modifier) {
         FieldSettings()
         DifficultySettings()
         MenuButton("Apply") {
-            Toast.makeText(
-                activity,
-                "Not yet implemented",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(activity, "Not yet implemented", Toast.LENGTH_LONG).show()
         }
     }
 }

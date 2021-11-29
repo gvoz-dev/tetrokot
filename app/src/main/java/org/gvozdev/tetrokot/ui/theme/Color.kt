@@ -17,6 +17,8 @@ val ButtonTextColor = Color(0xFFE8EAF6)
 
 val TextColor = Color(0xFF311B92)
 
+val PlayerCardBackgroundColor = Color(0xFF9FA8DA)
+
 val EmptyBlock = Color(0xFFE8EAF6)
 val BlockI = Color(0xFF1DE9B6)
 val BlockO = Color(0xFFFFEA00)

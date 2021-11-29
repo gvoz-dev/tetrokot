@@ -5,8 +5,8 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,38 +59,26 @@ fun ScoreInput(modifier: Modifier = Modifier, score: Int) {
             fontFamily = FontFamily.Serif,
             textAlign = TextAlign.Center
         )
-        TextField(
+        OutlinedTextField(
             value = name.value,
-            onValueChange = {},
+            onValueChange = { newText -> name.value = newText },
             modifier = Modifier
                 .width(ButtonWidth)
                 .height(ButtonHeight)
                 .padding(ButtonPadding)
         )
         MenuButton("Send") {
-            if (score < 100) {
-                Toast.makeText(
-                    activity,
-                    "Your score < 100",
-                    Toast.LENGTH_LONG
-                ).show()
+            if (score < 40) {
+                Toast.makeText(activity, "Your score < 40", Toast.LENGTH_LONG).show()
             } else {
                 ScoreViewModel().send(name.value, score)
-                activity?.startActivity(
-                    Intent(
-                        activity,
-                        MainActivity::class.java
-                    )
-                )
             }
+            activity?.startActivity(Intent(activity, MainActivity::class.java))
+            activity?.finish()
         }
         MenuButton("Restart") {
-            activity?.startActivity(
-                Intent(
-                    activity,
-                    GameActivity::class.java
-                )
-            )
+            activity?.startActivity(Intent(activity, GameActivity::class.java))
+            activity?.finish()
         }
     }
 }
