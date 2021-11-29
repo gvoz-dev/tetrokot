@@ -8,7 +8,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,8 +20,8 @@ import org.gvozdev.tetrokot.ui.theme.Shapes
 import org.gvozdev.tetrokot.ui.theme.TetrokotTheme
 
 @Composable
-fun LeaderboardView(list: List<Player>) {
-    var playerList by remember { mutableStateOf(list) }
+fun LeaderboardView(list: MutableList<Player>) {
+    val playerList = remember { list }
     val listState = rememberLazyListState()
 
     Box(Modifier.fillMaxSize()) {
@@ -55,7 +56,13 @@ fun PlayerCard(player: Player) {
 fun LeaderboardPreview() {
     TetrokotTheme {
         Surface(color = MaterialTheme.colors.background) {
-            LeaderboardView(list = mutableListOf(Player(), Player()))
+            LeaderboardView(
+                list = mutableListOf(
+                    Player("Pro", 1000000),
+                    Player("Noob", 100),
+                    Player()
+                )
+            )
         }
     }
 }

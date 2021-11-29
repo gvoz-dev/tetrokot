@@ -6,37 +6,33 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.mutableStateListOf
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
+import org.gvozdev.tetrokot.data.PLAYERS_FB_PATH
 import org.gvozdev.tetrokot.data.Player
+import org.gvozdev.tetrokot.data.ScoreComparator
 import org.gvozdev.tetrokot.ui.theme.TetrokotTheme
 
 class LeaderboardActivity : ComponentActivity() {
-    companion object {
-        const val TAG = "Leaderboard_Activity"
-    }
-
-    //private lateinit var database: DatabaseReference
-    //private var playerList = mutableListOf<Player>()
+    private lateinit var database: DatabaseReference
+    private var players = mutableStateListOf<Player>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //database = Firebase.database.getReference("players")
-        //addPlayerEventListener(database, playerList)
+        database = Firebase.database.getReference(PLAYERS_FB_PATH)
+        addPlayerEventListener(database, players)
 
         setContent {
             TetrokotTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    LeaderboardView(
-                        list = mutableListOf(
-                            Player("Pro", 100000),
-                            Player("Noob", 100)
-                        )
-                    )
+                    LeaderboardView(players)
                 }
             }
         }
@@ -54,10 +50,11 @@ class LeaderboardActivity : ComponentActivity() {
                         playerList.add(player)
                     }
                 }
+                playerList.sortWith(ScoreComparator())
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                Log.w(TAG, "onCancelled", databaseError.toException())
+                Log.w("Leaderboard", "onCancelled", databaseError.toException())
             }
         }
         database.addValueEventListener(listener)

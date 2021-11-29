@@ -8,6 +8,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.gvozdev.tetrokot.data.PLAYERS_FB_PATH
 import org.gvozdev.tetrokot.data.Player
 
 class ScoreViewModel : ViewModel() {
@@ -18,7 +19,7 @@ class ScoreViewModel : ViewModel() {
             withContext(Dispatchers.Default) {
                 val player = Player(username, score)
                 database = Firebase.database.reference
-                database.child("players").push().setValue(player)
+                database.child(PLAYERS_FB_PATH).push().setValue(player)
             }
         }
     }
